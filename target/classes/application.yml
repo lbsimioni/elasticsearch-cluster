@@ -1,4 +1,0 @@
-spring:
-  elasticsearch:
-    rest:
-      uris: http://173.101.101.101:9200
