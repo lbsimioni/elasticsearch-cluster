@@ -66,6 +66,10 @@ services:
         ipv4_address: 173.101.101.103
 
   kib:
+    depends_on:
+      - es01
+      - es02
+      - es03
     image: docker.elastic.co/kibana/kibana:7.12.1
     container_name: kib
     ports:
