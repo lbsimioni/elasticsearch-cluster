@@ -1,8 +1,8 @@
 package br.com.elasticsearchcluster.controllers;
 
-import br.com.elasticsearchcluster.controllers.dtos.Adapter.PropertyDTOAdapter;
-import br.com.elasticsearchcluster.controllers.dtos.Request.PropertyDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.Response.PropertyDTOResponse;
+import br.com.elasticsearchcluster.controllers.adapters.PropertyDTOAdapter;
+import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyDTORequest;
+import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyDTOResponse;
 import br.com.elasticsearchcluster.usecases.property.CreateProperty;
 import br.com.elasticsearchcluster.usecases.property.GetAllProperties;
 import br.com.elasticsearchcluster.usecases.property.GetPropertyById;

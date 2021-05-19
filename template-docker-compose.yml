@@ -18,7 +18,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data01:${PWD}/elasticsearch/data
+      - data01:${PWD}/src/main/resources/elasticsearch/data
     ports:
       - 9200:9200
     networks:
@@ -40,7 +40,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data02:${PWD}/elasticsearch/data
+      - data02:${PWD}/src/main/resources/elasticsearch/data
     networks:
       elastic:
         ipv4_address: 173.101.101.102
@@ -60,7 +60,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data03:${PWD}/elasticsearch/data
+      - data03:${PWD}/src/main/resources/elasticsearch/data
     networks:
       elastic:
         ipv4_address: 173.101.101.103
