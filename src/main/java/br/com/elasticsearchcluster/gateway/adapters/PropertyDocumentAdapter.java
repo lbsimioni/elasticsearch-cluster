@@ -17,14 +17,14 @@ public class PropertyDocumentAdapter {
         return model;
     }
 
-    public static Optional<PropertyModel> toModel(Optional<PropertyDocument> propertyOptional) {
-        return propertyOptional.map(PropertyDocumentAdapter::toModel);
+    public static Optional<PropertyModel> toModel(Optional<PropertyDocument> documentOptional) {
+        return documentOptional.map(PropertyDocumentAdapter::toModel);
     }
 
     public static PropertyDocument toDocument(PropertyModel model) {
         var document = new PropertyDocument();
 
-        document.setId(document.getId());
+        document.setId(model.getId());
         document.setAddress(AddressDocumentAdapter.toDocument(model.getAddress()));
         document.setType(PropertyTypeDocumentAdapter.toDocument(model.getType()));
         document.setCost(model.getCost());
