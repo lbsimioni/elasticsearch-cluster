@@ -26,3 +26,8 @@ Docker, Docker Compose and Bash terminal.
 for docker-compose, if you need improve the memory,
 you can run sudo sysctl -w vm.max_map_count=262144.
 3. Run the script start-me.sh (./start-me.sh)
+
+# DOCUMENTATION #
+
+We used swagger to documented the API,
+Link: `http://localhost:8080/swagger-ui/`
