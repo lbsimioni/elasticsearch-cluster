@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/properties")
 @AllArgsConstructor
@@ -83,7 +85,7 @@ public class PropertyController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PropertyDTOResponse> create(
-            @RequestBody PropertyDTORequest request,
+            @RequestBody @Valid PropertyDTORequest request,
             UriComponentsBuilder uriBuilder) {
         try {
             var model = PropertyDTOAdapter.toModel(request);
