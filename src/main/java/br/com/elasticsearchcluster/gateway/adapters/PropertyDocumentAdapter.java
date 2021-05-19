@@ -17,11 +17,8 @@ public class PropertyDocumentAdapter {
         return model;
     }
 
-    public static Optional<PropertyModel> toModel(Optional<PropertyDocument> documentOptional) {
-        if(documentOptional.isPresent())
-            return Optional.of(toModel(documentOptional.get()));
-
-        return Optional.empty();
+    public static Optional<PropertyModel> toModel(Optional<PropertyDocument> propertyOptional) {
+        return propertyOptional.map(PropertyDocumentAdapter::toModel);
     }
 
     public static PropertyDocument toDocument(PropertyModel model) {

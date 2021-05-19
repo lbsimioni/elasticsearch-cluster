@@ -2,5 +2,8 @@ spring:
   elasticsearch:
     rest:
       uris: http://173.101.101.101:9200
-      client:
-        WIRE: trace
+      #uris: http://173.101.101.101:9200,http://173.101.101.102:9200,http://173.101.101.103:9200
+
+logging:
+  level:
+    tracer: TRACE
