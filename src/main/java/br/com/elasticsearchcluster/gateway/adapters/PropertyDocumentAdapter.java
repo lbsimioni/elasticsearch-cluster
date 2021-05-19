@@ -27,7 +27,7 @@ public class PropertyDocumentAdapter {
         document.setId(document.getId());
         document.setAddress(AddressDocumentAdapter.toDocument(model.getAddress()));
         document.setType(PropertyTypeDocumentAdapter.toDocument(model.getType()));
-        document.setCost(document.getCost());
+        document.setCost(model.getCost());
 
         return document;
     }
