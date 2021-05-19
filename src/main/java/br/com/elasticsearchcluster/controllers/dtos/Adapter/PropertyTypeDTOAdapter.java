@@ -1,4 +1,4 @@
-packa ge br.com.elasticsearchcluster.controllers.dtos.Adapter;
+package br.com.elasticsearchcluster.controllers.dtos.Adapter;
 
 import br.com.elasticsearchcluster.models.enums.PropertyTypeModel;
 
