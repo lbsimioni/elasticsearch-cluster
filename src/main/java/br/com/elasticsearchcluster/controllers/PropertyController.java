@@ -6,6 +6,10 @@ import br.com.elasticsearchcluster.controllers.dtos.Response.PropertyDTOResponse
 import br.com.elasticsearchcluster.usecases.property.CreateProperty;
 import br.com.elasticsearchcluster.usecases.property.GetAllProperties;
 import br.com.elasticsearchcluster.usecases.property.GetPropertyById;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/properties")
 @AllArgsConstructor
+@Api(value = "Properties", tags = {"Properties"})
 public class PropertyController {
 
     private final GetAllProperties getAllProperties;
@@ -30,6 +36,12 @@ public class PropertyController {
     private final CreateProperty createProperty;
 
     @GetMapping
+    @ApiOperation(value = "Get All Properties", notes = "Get All Properties")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return all properties"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Page<PropertyDTOResponse>> findAll(@PageableDefault Pageable pageable) {
         try {
             var properties = getAllProperties.execute(pageable).map(PropertyDTOAdapter::toDTO);
@@ -40,6 +52,13 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a Property By Id", notes = "Get a Property By Id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return a property with the id informed"),
+            @ApiResponse(code = 404, message = "No one property was found with fd informed"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PropertyDTOResponse> findById(@PathVariable String id) {
         try {
             var propertyOptional = getPropertyById.execute(id);
@@ -53,6 +72,12 @@ public class PropertyController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Save a Property", notes = "Save a Property")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Property saved with success"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PropertyDTOResponse> create(
             @RequestBody PropertyDTORequest request,
             UriComponentsBuilder uriBuilder) {
