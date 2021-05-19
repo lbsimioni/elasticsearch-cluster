@@ -1,4 +1,4 @@
-package br.com.elasticsearchcluster.controllers.dtos.Response;
+package br.com.elasticsearchcluster.controllers.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

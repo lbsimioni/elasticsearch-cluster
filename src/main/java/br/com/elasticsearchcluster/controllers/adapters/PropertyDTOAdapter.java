@@ -1,7 +1,7 @@
-package br.com.elasticsearchcluster.controllers.dtos.Adapter;
+package br.com.elasticsearchcluster.controllers.adapters;
 
-import br.com.elasticsearchcluster.controllers.dtos.Request.PropertyDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.Response.PropertyDTOResponse;
+import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyDTORequest;
+import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyDTOResponse;
 import br.com.elasticsearchcluster.models.PropertyModel;
 
 import java.math.BigDecimal;

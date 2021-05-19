@@ -1,11 +1,15 @@
 package br.com.elasticsearchcluster.controllers;
 
-import br.com.elasticsearchcluster.controllers.dtos.Adapter.PropertyDTOAdapter;
-import br.com.elasticsearchcluster.controllers.dtos.Request.PropertyDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.Response.PropertyDTOResponse;
+import br.com.elasticsearchcluster.controllers.adapters.PropertyDTOAdapter;
+import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyDTORequest;
+import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyDTOResponse;
+import br.com.elasticsearchcluster.exceptions.ResourceNotFoundException;
+import br.com.elasticsearchcluster.models.PropertyModel;
 import br.com.elasticsearchcluster.usecases.property.CreateProperty;
+import br.com.elasticsearchcluster.usecases.property.DeleteProperty;
 import br.com.elasticsearchcluster.usecases.property.GetAllProperties;
 import br.com.elasticsearchcluster.usecases.property.GetPropertyById;
+import br.com.elasticsearchcluster.usecases.property.UpdateProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,14 +20,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/properties")
@@ -34,6 +43,8 @@ public class PropertyController {
     private final GetAllProperties getAllProperties;
     private final GetPropertyById getPropertyById;
     private final CreateProperty createProperty;
+    private final DeleteProperty deleteProperty;
+    private final UpdateProperty updateProperty;
 
     @GetMapping
     @ApiOperation(value = "Get All Properties", notes = "Get All Properties")
@@ -55,17 +66,15 @@ public class PropertyController {
     @ApiOperation(value = "Get a Property By Id", notes = "Get a Property By Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Return a property with the id informed"),
-            @ApiResponse(code = 404, message = "No one property was found with fd informed"),
+            @ApiResponse(code = 404, message = "Property not found"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PropertyDTOResponse> findById(@PathVariable String id) {
         try {
-            var propertyOptional = getPropertyById.execute(id);
-            return propertyOptional
-                    .map(propertyModel -> ResponseEntity.ok(PropertyDTOAdapter.toDTO(propertyModel)))
-                    .orElseGet(() -> ResponseEntity.notFound().build());
-
+            return ResponseEntity.ok(PropertyDTOAdapter.toDTO(getPropertyById.execute(id)));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -78,14 +87,57 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional
     public ResponseEntity<PropertyDTOResponse> create(
-            @RequestBody PropertyDTORequest request,
+            @RequestBody @Valid PropertyDTORequest request,
             UriComponentsBuilder uriBuilder) {
         try {
             var model = PropertyDTOAdapter.toModel(request);
             var response = PropertyDTOAdapter.toDTO(createProperty.execute(model));
             var uri = uriBuilder.path("/properties/{id}").buildAndExpand(response.getId()).toUri();
             return ResponseEntity.created(uri).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete a Property", notes = "Delete a Property")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Property deleted with success"),
+            @ApiResponse(code = 404, message = "Property not found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity delete(@PathVariable String id) {
+        try {
+            deleteProperty.execute(id);
+            return ResponseEntity.noContent().build();
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Update a Property", notes = "Update a Property")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Property updated with success"),
+            @ApiResponse(code = 404, message = "Property not found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @Transactional
+    public ResponseEntity<PropertyDTOResponse> update(
+            @PathVariable String id,
+            @RequestBody PropertyDTORequest request) {
+
+        try {
+            PropertyModel property = updateProperty.execute(PropertyDTOAdapter.toModel(request), id);
+            return ResponseEntity.ok(PropertyDTOAdapter.toDTO(property));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -3,6 +3,8 @@ package br.com.elasticsearchcluster.gateway.adapters;
 import br.com.elasticsearchcluster.gateway.documents.AddressDocument;
 import br.com.elasticsearchcluster.models.AddressModel;
 
+import java.util.Optional;
+
 public class AddressDocumentAdapter {
     public static AddressModel toModel(AddressDocument document) {
         var model = new AddressModel();
@@ -12,6 +14,10 @@ public class AddressDocumentAdapter {
         model.setNumber(document.getNumber());
 
         return model;
+    }
+
+    public static Optional<AddressModel> toModel(Optional<AddressDocument> documentOptional) {
+        return documentOptional.map(AddressDocumentAdapter::toModel);
     }
 
     public static AddressDocument toDocument(AddressModel model) {

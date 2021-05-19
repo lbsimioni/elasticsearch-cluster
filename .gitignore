@@ -35,5 +35,5 @@ build/
 # Temporary docker file
 docker-compose.yml
 
-# Elasticsearch Data
-elasticsearch
+# Elasticsearch Datas
+src/main/resources/elasticsearch

@@ -1,7 +1,7 @@
-package br.com.elasticsearchcluster.controllers.dtos.Adapter;
+package br.com.elasticsearchcluster.controllers.adapters;
 
-import br.com.elasticsearchcluster.controllers.dtos.Request.AddressDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.Response.AddressDTOResponse;
+import br.com.elasticsearchcluster.controllers.dtos.requests.AddressDTORequest;
+import br.com.elasticsearchcluster.controllers.dtos.responses.AddressDTOResponse;
 import br.com.elasticsearchcluster.models.AddressModel;
 
 public class AddressDTOAdapter {
