@@ -14,7 +14,7 @@ public class SaveAddressDocumentInDataBaseImp implements SaveAddressDocumentInDa
     private final AddressDocumentRepository repository;
 
     @Override
-    public AddressModel execute(AddressModel address) {
+    public AddressModel execute(final AddressModel address) {
         return AddressDocumentAdapter.toModel(repository.save(AddressDocumentAdapter.toDocument(address)));
     }
 }

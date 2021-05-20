@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface GetAllPropertiesDocumentInDataBase {
-    Page<PropertyModel> execute(Pageable pageable);
+    Page<PropertyModel> execute(final Pageable pageable);
 }

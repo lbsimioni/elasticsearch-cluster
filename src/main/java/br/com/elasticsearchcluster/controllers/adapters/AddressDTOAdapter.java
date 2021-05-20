@@ -5,7 +5,7 @@ import br.com.elasticsearchcluster.controllers.dtos.responses.AddressResponseDTO
 import br.com.elasticsearchcluster.models.AddressModel;
 
 public class AddressDTOAdapter {
-    public static AddressResponseDTO toDTO(AddressModel model) {
+    public static AddressResponseDTO toDTO(final AddressModel model) {
         var dto = new AddressResponseDTO();
 
         dto.setId(model.getId());
@@ -15,7 +15,7 @@ public class AddressDTOAdapter {
         return dto;
     }
 
-    public static AddressModel toModel(AddressRequestDTO request) {
+    public static AddressModel toModel(final AddressRequestDTO request) {
         var model = new AddressModel();
 
         model.setCep(request.getCep());

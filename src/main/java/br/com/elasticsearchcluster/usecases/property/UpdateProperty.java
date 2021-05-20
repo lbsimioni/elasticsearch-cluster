@@ -4,8 +4,10 @@ import br.com.elasticsearchcluster.gateway.daos.interfaces.property.SaveProperty
 import br.com.elasticsearchcluster.models.PropertyModel;
 import br.com.elasticsearchcluster.usecases.address.UpdateAddress;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UpdateProperty {
@@ -14,11 +16,14 @@ public class UpdateProperty {
     private final GetPropertyById getPropertyById;
     private final SavePropertyDocumentInDataBase savePropertyDocumentInDataBase;
 
-    public final PropertyModel execute(PropertyModel property, String id) {
+    public final PropertyModel execute(final PropertyModel property, final String id) {
+        log.info("UseCase Updating property");
         PropertyModel propertyInDataBase = getPropertyById.execute(id);
         property.setId(id);
         property.setAddress(updateAddress.execute(property.getAddress(), propertyInDataBase.getAddress().getId()));
+        var model = savePropertyDocumentInDataBase.execute(property);
+        log.info("UseCase Updated property");
 
-        return savePropertyDocumentInDataBase.execute(property);
+        return model;
     }
 }

@@ -16,7 +16,7 @@ public class GetPropertyByIdInDataBaseImp implements GetPropertyByIdInDataBase {
     private final PropertyDocumentRepository repository;
 
     @Override
-    public Optional<PropertyModel> execute(String id) {
+    public Optional<PropertyModel> execute(final String id) {
         return PropertyDocumentAdapter.toModel(repository.findById(id));
     }
 }

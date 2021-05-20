@@ -6,7 +6,7 @@ import br.com.elasticsearchcluster.models.PropertyModel;
 import java.util.Optional;
 
 public class PropertyDocumentAdapter {
-    public static PropertyModel toModel(PropertyDocument document) {
+    public static PropertyModel toModel(final PropertyDocument document) {
         var model = new PropertyModel();
 
         model.setId(document.getId());
@@ -17,11 +17,11 @@ public class PropertyDocumentAdapter {
         return model;
     }
 
-    public static Optional<PropertyModel> toModel(Optional<PropertyDocument> documentOptional) {
+    public static Optional<PropertyModel> toModel(final Optional<PropertyDocument> documentOptional) {
         return documentOptional.map(PropertyDocumentAdapter::toModel);
     }
 
-    public static PropertyDocument toDocument(PropertyModel model) {
+    public static PropertyDocument toDocument(final PropertyModel model) {
         var document = new PropertyDocument();
 
         document.setId(model.getId());

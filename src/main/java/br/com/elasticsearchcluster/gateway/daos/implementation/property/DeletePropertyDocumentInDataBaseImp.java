@@ -12,7 +12,7 @@ public class DeletePropertyDocumentInDataBaseImp implements DeletePropertyDocume
     private final PropertyDocumentRepository repository;
 
     @Override
-    public void execute(String id) {
+    public void execute(final String id) {
         repository.deleteById(id);
     }
 }

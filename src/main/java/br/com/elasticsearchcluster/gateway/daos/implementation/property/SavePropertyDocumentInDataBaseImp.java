@@ -14,7 +14,7 @@ public class SavePropertyDocumentInDataBaseImp implements SavePropertyDocumentIn
     private final PropertyDocumentRepository repository;
 
     @Override
-    public PropertyModel execute(PropertyModel property) {
+    public PropertyModel execute(final PropertyModel property) {
         return PropertyDocumentAdapter.toModel(repository.save(PropertyDocumentAdapter.toDocument(property)));
     }
 }

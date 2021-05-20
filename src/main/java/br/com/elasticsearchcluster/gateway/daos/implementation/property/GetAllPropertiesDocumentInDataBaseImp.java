@@ -16,7 +16,7 @@ public class GetAllPropertiesDocumentInDataBaseImp implements GetAllPropertiesDo
     private final PropertyDocumentRepository repository;
 
     @Override
-    public Page<PropertyModel> execute(Pageable pageable) {
+    public Page<PropertyModel> execute(final Pageable pageable) {
         return repository.findAll(pageable).map(PropertyDocumentAdapter::toModel);
     }
 }

@@ -3,8 +3,6 @@ package br.com.elasticsearchcluster.controllers;
 import br.com.elasticsearchcluster.controllers.adapters.PropertyDTOAdapter;
 import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyRequestDTO;
 import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyResponseDTO;
-import br.com.elasticsearchcluster.exceptions.ResourceNotFoundException;
-import br.com.elasticsearchcluster.models.PropertyModel;
 import br.com.elasticsearchcluster.usecases.property.CreateProperty;
 import br.com.elasticsearchcluster.usecases.property.DeleteProperty;
 import br.com.elasticsearchcluster.usecases.property.GetAllProperties;
@@ -15,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -34,6 +33,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequestMapping("/properties")
 @AllArgsConstructor
@@ -53,13 +53,11 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Page<PropertyResponseDTO>> findAll(@PageableDefault Pageable pageable) {
-        try {
-            var properties = getAllProperties.execute(pageable).map(PropertyDTOAdapter::toDTO);
-            return ResponseEntity.ok(properties);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Page<PropertyResponseDTO>> findAll(@PageableDefault final Pageable pageable) {
+        log.info("Controller Listing all properties");
+        var properties = getAllProperties.execute(pageable).map(PropertyDTOAdapter::toDTO);
+        log.info("Controller Listed all properties");
+        return ResponseEntity.ok(properties);
     }
 
     @GetMapping("/{id}")
@@ -70,14 +68,11 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<PropertyResponseDTO> findById(@PathVariable String id) {
-        try {
-            return ResponseEntity.ok(PropertyDTOAdapter.toDTO(getPropertyById.execute(id)));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<PropertyResponseDTO> findById(@PathVariable final String id) {
+        log.info("Controller Getting property with id " + id);
+        var response = PropertyDTOAdapter.toDTO(getPropertyById.execute(id));
+        log.info("Controller Getted property with id " + id);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
@@ -89,16 +84,17 @@ public class PropertyController {
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     public ResponseEntity<PropertyResponseDTO> create(
-            @RequestBody @Valid PropertyRequestDTO request,
-            UriComponentsBuilder uriBuilder) {
-        try {
-            var model = PropertyDTOAdapter.toModel(request);
-            var response = PropertyDTOAdapter.toDTO(createProperty.execute(model));
-            var uri = uriBuilder.path("/properties/{id}").buildAndExpand(response.getId()).toUri();
-            return ResponseEntity.created(uri).body(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            @RequestBody @Valid final PropertyRequestDTO request,
+            final UriComponentsBuilder uriBuilder) {
+        
+        log.info("Controller Creating property");
+
+        var model = PropertyDTOAdapter.toModel(request);
+        var response = PropertyDTOAdapter.toDTO(createProperty.execute(model));
+        var uri = uriBuilder.path("/properties/{id}").buildAndExpand(response.getId()).toUri();
+
+        log.info("Controller Created property");
+        return ResponseEntity.created(uri).body(response);
     }
 
     @DeleteMapping("/{id}")
@@ -109,15 +105,11 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity delete(@PathVariable String id) {
-        try {
-            deleteProperty.execute(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity delete(@PathVariable final String id) {
+        log.info("Controller Deleting property with id " + id);
+        deleteProperty.execute(id);
+        log.info("Controller Deleted property with id " + id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
@@ -130,17 +122,13 @@ public class PropertyController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public ResponseEntity<PropertyResponseDTO> update(
-            @PathVariable String id,
-            @RequestBody PropertyRequestDTO request) {
+            @PathVariable final String id,
+            @RequestBody final PropertyRequestDTO request) {
 
-        try {
-            PropertyModel property = updateProperty.execute(PropertyDTOAdapter.toModel(request), id);
-            return ResponseEntity.ok(PropertyDTOAdapter.toDTO(property));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        log.info("Controller Updating property with id " + id);
+        var property = updateProperty.execute(PropertyDTOAdapter.toModel(request), id);
+        log.info("Controller Updated property with id " + id);
+        return ResponseEntity.ok(PropertyDTOAdapter.toDTO(property));
     }
 
 }

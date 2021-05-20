@@ -7,7 +7,7 @@ import br.com.elasticsearchcluster.models.PropertyModel;
 import java.math.BigDecimal;
 
 public class PropertyDTOAdapter {
-    public static PropertyResponseDTO toDTO(PropertyModel model) {
+    public static PropertyResponseDTO toDTO(final PropertyModel model) {
         var dto = new PropertyResponseDTO();
 
         dto.setId(model.getId());
@@ -18,7 +18,7 @@ public class PropertyDTOAdapter {
         return dto;
     }
 
-    public static PropertyModel toModel(PropertyRequestDTO request) {
+    public static PropertyModel toModel(final PropertyRequestDTO request) {
         var model = new PropertyModel();
 
         model.setAddress(AddressDTOAdapter.toModel(request.getAddress()));
