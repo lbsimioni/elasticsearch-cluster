@@ -5,5 +5,5 @@ import br.com.elasticsearchcluster.models.PropertyModel;
 import java.util.Optional;
 
 public interface GetPropertyByIdInDataBase {
-    Optional<PropertyModel> execute(String id);
+    Optional<PropertyModel> execute(final String id);
 }

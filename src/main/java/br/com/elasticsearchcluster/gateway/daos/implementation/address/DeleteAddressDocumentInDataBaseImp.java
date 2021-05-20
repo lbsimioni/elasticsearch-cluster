@@ -12,7 +12,7 @@ public class DeleteAddressDocumentInDataBaseImp implements DeleteAddressDocument
     private final AddressDocumentRepository repository;
 
     @Override
-    public void execute(String id) {
+    public void execute(final String id) {
         repository.deleteById(id);
     }
 }

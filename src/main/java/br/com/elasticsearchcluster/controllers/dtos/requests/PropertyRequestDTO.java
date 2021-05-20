@@ -10,9 +10,9 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropertyDTORequest {
+public class PropertyRequestDTO {
     @Valid
-    private AddressDTORequest address;
+    private AddressRequestDTO address;
     @NotEmpty
     private String type;
     private Double cost;

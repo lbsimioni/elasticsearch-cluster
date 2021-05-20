@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PropertyDTOResponse {
+public class PropertyResponseDTO {
     private String id;
-    private AddressDTOResponse address;
+    private AddressResponseDTO address;
     private String type;
     private BigDecimal cost;
 }
