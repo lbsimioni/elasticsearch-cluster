@@ -1,14 +1,14 @@
 package br.com.elasticsearchcluster.controllers.adapters;
 
-import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyDTOResponse;
+import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyRequestDTO;
+import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyResponseDTO;
 import br.com.elasticsearchcluster.models.PropertyModel;
 
 import java.math.BigDecimal;
 
 public class PropertyDTOAdapter {
-    public static PropertyDTOResponse toDTO(PropertyModel model) {
-        var dto = new PropertyDTOResponse();
+    public static PropertyResponseDTO toDTO(PropertyModel model) {
+        var dto = new PropertyResponseDTO();
 
         dto.setId(model.getId());
         dto.setAddress(AddressDTOAdapter.toDTO(model.getAddress()));
@@ -18,7 +18,7 @@ public class PropertyDTOAdapter {
         return dto;
     }
 
-    public static PropertyModel toModel(PropertyDTORequest request) {
+    public static PropertyModel toModel(PropertyRequestDTO request) {
         var model = new PropertyModel();
 
         model.setAddress(AddressDTOAdapter.toModel(request.getAddress()));

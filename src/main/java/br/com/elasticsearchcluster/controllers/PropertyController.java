@@ -1,8 +1,8 @@
 package br.com.elasticsearchcluster.controllers;
 
 import br.com.elasticsearchcluster.controllers.adapters.PropertyDTOAdapter;
-import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyDTORequest;
-import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyDTOResponse;
+import br.com.elasticsearchcluster.controllers.dtos.requests.PropertyRequestDTO;
+import br.com.elasticsearchcluster.controllers.dtos.responses.PropertyResponseDTO;
 import br.com.elasticsearchcluster.exceptions.ResourceNotFoundException;
 import br.com.elasticsearchcluster.models.PropertyModel;
 import br.com.elasticsearchcluster.usecases.property.CreateProperty;
@@ -53,7 +53,7 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Page<PropertyDTOResponse>> findAll(@PageableDefault Pageable pageable) {
+    public ResponseEntity<Page<PropertyResponseDTO>> findAll(@PageableDefault Pageable pageable) {
         try {
             var properties = getAllProperties.execute(pageable).map(PropertyDTOAdapter::toDTO);
             return ResponseEntity.ok(properties);
@@ -70,7 +70,7 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<PropertyDTOResponse> findById(@PathVariable String id) {
+    public ResponseEntity<PropertyResponseDTO> findById(@PathVariable String id) {
         try {
             return ResponseEntity.ok(PropertyDTOAdapter.toDTO(getPropertyById.execute(id)));
         } catch (ResourceNotFoundException e) {
@@ -88,8 +88,8 @@ public class PropertyController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @Transactional
-    public ResponseEntity<PropertyDTOResponse> create(
-            @RequestBody @Valid PropertyDTORequest request,
+    public ResponseEntity<PropertyResponseDTO> create(
+            @RequestBody @Valid PropertyRequestDTO request,
             UriComponentsBuilder uriBuilder) {
         try {
             var model = PropertyDTOAdapter.toModel(request);
@@ -129,9 +129,9 @@ public class PropertyController {
     })
     @ResponseStatus(HttpStatus.OK)
     @Transactional
-    public ResponseEntity<PropertyDTOResponse> update(
+    public ResponseEntity<PropertyResponseDTO> update(
             @PathVariable String id,
-            @RequestBody PropertyDTORequest request) {
+            @RequestBody PropertyRequestDTO request) {
 
         try {
             PropertyModel property = updateProperty.execute(PropertyDTOAdapter.toModel(request), id);
