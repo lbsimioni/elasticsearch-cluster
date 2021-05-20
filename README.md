@@ -3,7 +3,8 @@
 Projeto for Elasticsearch Cluster in Spring Boot
 
 This project was developed for an academic work, and do 
-not aim at the business rule, but aim the architecture
+not aim at the business rule, but aim the architecture.<br>
+The idea is create a project with Clean Architecture.
 
 # DEPENDENCIES #
 
