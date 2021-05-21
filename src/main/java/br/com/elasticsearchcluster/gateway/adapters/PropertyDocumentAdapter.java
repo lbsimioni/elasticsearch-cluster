@@ -6,6 +6,9 @@ import br.com.elasticsearchcluster.models.PropertyModel;
 import java.util.Optional;
 
 public class PropertyDocumentAdapter {
+
+    private PropertyDocumentAdapter() {}
+
     public static PropertyModel toModel(final PropertyDocument document) {
         var model = new PropertyModel();
 

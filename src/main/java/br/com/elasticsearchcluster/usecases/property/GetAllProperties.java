@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class GetAllProperties {
+
     private final GetAllPropertiesDocumentInDataBase getAllPropertiesDocumentInDataBase;
 
     public Page<PropertyModel> execute(final Pageable pageable) {

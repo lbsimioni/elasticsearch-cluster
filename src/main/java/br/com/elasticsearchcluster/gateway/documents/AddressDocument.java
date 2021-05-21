@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 public class AddressDocument {
     @Id
     private String id;
-
     private String cep;
     private String number;
 }

@@ -5,6 +5,9 @@ import br.com.elasticsearchcluster.controllers.dtos.responses.AddressResponseDTO
 import br.com.elasticsearchcluster.models.AddressModel;
 
 public class AddressDTOAdapter {
+
+    private AddressDTOAdapter() {}
+
     public static AddressResponseDTO toDTO(final AddressModel model) {
         var dto = new AddressResponseDTO();
 

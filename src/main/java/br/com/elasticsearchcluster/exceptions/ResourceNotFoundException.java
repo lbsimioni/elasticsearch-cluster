@@ -1,6 +1,5 @@
 package br.com.elasticsearchcluster.exceptions;
 
-
 import org.springframework.http.HttpStatus;
 
 public class ResourceNotFoundException extends BaseException {

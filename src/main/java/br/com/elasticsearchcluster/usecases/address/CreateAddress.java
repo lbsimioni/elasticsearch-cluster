@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CreateAddress {
+
     private final SaveAddressDocumentInDataBase saveAddressDocumentInDataBase;
 
     public AddressModel execute(final AddressModel address) {

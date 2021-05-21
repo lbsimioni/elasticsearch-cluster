@@ -27,6 +27,8 @@ Docker, Docker Compose and Bash terminal.
 for docker-compose, if you need improve the memory,
 you can run sudo sysctl -w vm.max_map_count=262144.
 3. Run the script start-me.sh (./start-me.sh)
+4. You need select dev profile (spring.profiles.active=dev),
+in Environment Variables
 
 # DOCUMENTATION #
 

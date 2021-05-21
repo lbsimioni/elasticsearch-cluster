@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class GetPropertyById {
+
     private final GetPropertyByIdInDataBase getPropertyByIdInDataBase;
 
     public PropertyModel execute(final String id) {
