@@ -4,7 +4,6 @@ echo 'CREATING DOCKER COMPOSE'
 
 echo $PWD
 
-
 mkdir -p src/main/resources/elasticsearch/data
 rm -rf docker-compose.yml;
 

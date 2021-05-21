@@ -105,7 +105,7 @@ public class PropertyController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity delete(@PathVariable final String id) {
+    public ResponseEntity<Void> delete(@PathVariable final String id) {
         log.info("Controller Deleting property with id " + id);
         deleteProperty.execute(id);
         log.info("Controller Deleted property with id " + id);

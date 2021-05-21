@@ -6,6 +6,9 @@ import br.com.elasticsearchcluster.models.AddressModel;
 import java.util.Optional;
 
 public class AddressDocumentAdapter {
+
+    private AddressDocumentAdapter() {}
+
     public static AddressModel toModel(final AddressDocument document) {
         var model = new AddressModel();
 

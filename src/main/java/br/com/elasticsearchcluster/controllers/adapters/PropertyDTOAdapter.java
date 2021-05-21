@@ -7,6 +7,9 @@ import br.com.elasticsearchcluster.models.PropertyModel;
 import java.math.BigDecimal;
 
 public class PropertyDTOAdapter {
+
+    private PropertyDTOAdapter() {}
+
     public static PropertyResponseDTO toDTO(final PropertyModel model) {
         var dto = new PropertyResponseDTO();
 
